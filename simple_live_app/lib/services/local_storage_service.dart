@@ -216,6 +216,9 @@ class LocalStorageService extends GetxService {
   /// 隐藏不在线关注
   static const String kHideOfflineFollow = "HideOfflineFollow";
 
+  /// 虎牙自定义 HYSDK_UA
+  static const String kHuyaSdkUa = "HuyaSdkUa";
+
   late Box settingsBox;
   late Box<String> shieldBox;
 

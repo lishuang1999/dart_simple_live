@@ -199,20 +199,20 @@ class FollowInfoController extends BasePageController<FollowUser> {
 
     // 更新关注同时 更新历史记录数据
     History? oldHistory = HistoryService.instance.getHistory(current.id);
-    // null不迁移
+    // null直接生成
     if (oldHistory != null) {
-      final History newHistory = History(
-        id: '${targetSite.id}_$targetRoomId',
-        roomId: targetRoomId,
-        siteId: targetSite.id,
-        userName: detail.userName,
-        face: detail.userAvatar,
-        watchDuration: oldHistory.watchDuration,
-        updateTime: oldHistory.updateTime,
-      );
       await HistoryService.instance.delHistory(oldHistory.id);
-      await HistoryService.instance.addOrUpdateHistory(newHistory);
     }
+    final History newHistory = History(
+      id: '${targetSite.id}_$targetRoomId',
+      roomId: targetRoomId,
+      siteId: targetSite.id,
+      userName: detail.userName,
+      face: detail.userAvatar,
+      watchDuration: newFollow.watchDuration,
+      updateTime: DateTime.now(),
+    );
+    await HistoryService.instance.addOrUpdateHistory(newHistory);
 
     // 刷新本地数据并更新UI
     await FollowService.instance.loadData(updateStatus: false);
